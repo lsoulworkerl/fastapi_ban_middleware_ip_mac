@@ -1,8 +1,8 @@
 from pydantic import BaseModel
 
 
-class TestDTO(BaseModel):
-    test: str
+class VoteDTO(BaseModel):
+    vote: bool
 
     class Config:
         from_attributes = True

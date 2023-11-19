@@ -11,9 +11,12 @@ class UserIPRepository:
         self.session = session
 
     def create_user_ip(self, ip: str):
-        new_user_ip = UserIP(ip=ip)
-        self.session.add(new_user_ip)
-        self.session.commit()
+        try:
+            new_user_ip = UserIP(ip=ip)
+            self.session.add(new_user_ip)
+            self.session.commit()
+        except IntegrityError:
+            self.session.rollback()
 
     def get_user_id_by_ip(self, ip: str):
         user_ip_record = self.session.query(UserIP).filter_by(ip=ip).first()
@@ -25,9 +28,12 @@ class UserCookieRepository:
         self.session = session
 
     def create_user_cookie(self, cookie: str):
-        new_user_cookie = UserCookie(cookie=cookie)
-        self.session.add(new_user_cookie)
-        self.session.commit()
+        try:
+            new_user_cookie = UserCookie(cookie=cookie)
+            self.session.add(new_user_cookie)
+            self.session.commit()
+        except IntegrityError:
+            self.session.rollback()
 
     def get_user_id_by_cookie(self, cookie: str):
         user_cookie_record = self.session.query(
@@ -56,10 +62,13 @@ class VoteCookieRepository:
     def __init__(self, session: Session):
         self.session = session
 
-    def create_vote_ip(self, vote: bool, user_cookie_id: int):
+    def create_vote_cookie(self, vote: bool, user_cookie_id: int):
         try:
-            new_vote_ip = VoteCookie(vote=vote, user_ip_id=user_cookie_id)
-            self.session.add(new_vote_ip)
+            new_vote_cookie = VoteCookie(
+                vote=vote,
+                user_cookie_id=user_cookie_id,
+            )
+            self.session.add(new_vote_cookie)
             self.session.commit()
         except IntegrityError:
             self.session.rollback()
@@ -70,14 +79,19 @@ class VoteCookieIPRepository:
     def __init__(self, session: Session):
         self.session = session
 
-    def create_vote_ip(self, vote: bool, user_ip_id: int, user_cookie_id: int):
+    def create_vote_cookie_ip(
+        self,
+        vote: bool,
+        user_ip_id: int,
+        user_cookie_id: int,
+    ):
         try:
-            new_vote_ip = VoteCookieIP(
+            new_vote_cookie_ip = VoteCookieIP(
                 vote=vote,
                 user_ip_id=user_ip_id,
                 user_cookie_id=user_cookie_id,
             )
-            self.session.add(new_vote_ip)
+            self.session.add(new_vote_cookie_ip)
             self.session.commit()
         except IntegrityError:
             self.session.rollback()

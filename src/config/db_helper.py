@@ -16,7 +16,7 @@ class DatabaseHelper:
         session = self.Session()
         try:
             yield session
-        except SQLAlchemyError as error:
+        except SQLAlchemyError:
             session.rollback()
             raise
         finally:
@@ -26,7 +26,7 @@ class DatabaseHelper:
         session = self.Session()
         try:
             yield session
-        except SQLAlchemyError as error:
+        except SQLAlchemyError:
             session.rollback()
             raise
         finally:

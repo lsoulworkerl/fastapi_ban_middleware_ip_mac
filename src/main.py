@@ -4,7 +4,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from config.project_config import settings
 from routers import get_apps_router
-from middleware import IPMiddleware
+from middleware import IPMiddleware, CookieMiddleware
 
 
 def get_application() -> FastAPI:
@@ -17,6 +17,9 @@ def get_application() -> FastAPI:
 
     application.add_middleware(
         IPMiddleware,
+    )
+    application.add_middleware(
+        CookieMiddleware,
     )
     application.add_middleware(
         CORSMiddleware,

@@ -15,7 +15,7 @@ class ConfigDataBase(BaseSettings):
     @property
     def database_url(self) -> Optional[PostgresDsn]:
         return (
-            f"mysql://{self.POSTGRES_USER}:{self.POSTGRES_PASSWORD}@"
+            f"postgresql://{self.POSTGRES_USER}:{self.POSTGRES_PASSWORD}@"
             f"{self.POSTGRES_DATABASE_HOST}:{self.POSTGRES_DATABASE_PORT}"
             f"/{self.POSTGRES_DATABASE}"
         )
